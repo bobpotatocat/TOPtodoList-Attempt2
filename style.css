@@ -90,6 +90,7 @@ img.profile-snip {
   display: flex;
   align-items: center;
   column-gap: 30px;
+  position: relative;
 }
 .welcome-left .hi-user {
   font-size: x-large;
@@ -115,6 +116,63 @@ img.profile-snip {
   cursor: pointer;
   font-weight: bold;
   opacity: 1;
+}
+
+#newProjectForm {
+  border: 5px grey solid;
+  border-radius: 20px;
+  width: 30rem;
+  position: absolute;
+  background-color: aliceblue;
+  padding: 1rem;
+  z-index: 1;
+  top: 15rem;
+  right: 15rem;
+  display: none;
+  font-family: "Roboto", sans-serif;
+}
+
+#newProjectForm .form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+#newProjectForm .form .title-qn,
+#newProjectForm .form .content-qn {
+  display: flex;
+  flex-direction: column;
+}
+#newProjectForm .form .title-qn label,
+#newProjectForm .form .content-qn label {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+#newProjectForm .form .title-qn input {
+  border: 4px rgb(128, 185, 128) solid;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+
+#newProjectForm .form .content-qn input {
+  border: 4px grey solid;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  height: 5rem;
+}
+
+#newProjectForm .form .new-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+#newProjectForm .form .new-buttons button {
+  width: 9rem;
+  height: 2rem;
+  font-size: 1.4rem;
+  border: 2px black solid;
+  border-radius: 5px;
 }
 
 /* Projects section */
@@ -167,14 +225,20 @@ img.profile-snip {
   right: 1.5rem;
 }
 
-.cards .card .card-action img {
+.card-action-input input {
   margin: 5px;
   transition: transform 0.2s;
 }
 
-.cards .card .card-action img:hover {
+.card-action-input input:hover {
   cursor: pointer;
   transform: scale(1.2);
+}
+
+/* style cards which are marked */
+.card[data-done="true"] {
+  background-color: lightgreen;
+  opacity: 0.7;
 }
 
 /* ANNOUCEMENTS */

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-
+    <script src="script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -49,7 +49,7 @@
             <img src="bell.png" alt="" />
           </div>
           <div>
-            <img src="dog.jpg" class="profile-snip" alt="" />
+            <img src="dog.jpeg" class="profile-snip" alt="" />
           </div>
           <div>Mars</div>
         </div>
@@ -57,21 +57,49 @@
 
       <div class="profile-row">
         <div class="welcome-left">
-          <img src="dog.jpg" class="profile-pic" alt="" />
+          <img src="dog.jpeg" class="profile-pic" alt="" />
           <div class="hi-user">
             <p>Hi there,</p>
             <h2>Mars Wanton (@DaFeiZhu)</h2>
           </div>
         </div>
         <div class="welcome-right">
-          <button>New</button><button>Upload</button><button>Share</button>
+          <button id="newProjectButton">New</button><button>Upload</button
+          ><button>Share</button>
+        </div>
+
+        <div class="popup-form" id="newProjectForm">
+          <div class="form">
+            <h1>Add new Project</h1>
+
+            <div class="title-qn">
+              <label for="title"> What's your new project? </label>
+              <input
+                id="new-title"
+                type="text"
+                placeholder="Change the world!"
+                name="title"
+                required
+              />
+            </div>
+
+            <div class="content-qn">
+              <label for="content">Description:</label>
+              <input id="new-content" type="text" name="content" />
+            </div>
+
+            <div class="new-buttons">
+              <button id="new-create">Create</button>
+              <button id="new-clear">Clear</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="projects-container">
-      <div class="cards">
-        <div class="card">
+      <div class="cards" id="cards-container">
+        <!-- <div class="card" data-position="" data-done="false">
           <div class="title">I WANT LUB LUB</div>
           <div class="content">
             I am bekom fat long bois blep long woofer dat tungg tho very good
@@ -80,11 +108,31 @@
           </div>
 
           <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
+            <input
+              type="image"
+              src="star-check.png"
+              name="mark-card"
+              class="card-icon bt-mark-card"
+              id="mark-btn"
+            />
+            <input
+              type="image"
+              src="trash-can.png"
+              name="del-card"
+              class="card-icon bt-del-card"
+              id="del-btn"
+            />
+            <input
+              type="image"
+              src="bone.png"
+              name="bone-card"
+              class="card-icon bt-bone-card"
+              id="bone-btn"
+            />
           </div>
-        </div>
+        </div> -->
+
+        <!-- 
         <div class="card">
           <div class="title">GIMME FOOD PLZ?</div>
           <div class="content">
@@ -96,7 +144,9 @@
             <img src="trash-can.png" alt="" />
             <img src="bone.png" alt="" />
           </div>
-        </div>
+        </div> -->
+
+        <!--
         <div class="card">
           <div class="title">I is best boy</div>
           <div class="content">
@@ -159,8 +209,9 @@
             <img src="trash-can.png" alt="" />
             <img src="bone.png" alt="" />
           </div>
-        </div>
+        </div> -->
       </div>
+
       <div class="Annoucements">
         <div class="title">Annoucements</div>
         <div class="annouce-cards">
@@ -194,3 +245,28 @@
     </div>
   </body>
 </html>
+
+<!-- for reference to create new card -->
+<div id="card-action-sample" class="card-action-input">
+  <input
+    type="image"
+    src="star-check.png"
+    name="mark-card"
+    class="card-icon bt-mark-card"
+    id="mark-btn"
+  />
+  <input
+    type="image"
+    src="trash-can.png"
+    name="del-card"
+    class="card-icon bt-del-card"
+    id="del-btn"
+  />
+  <input
+    type="image"
+    src="bone.png"
+    name="bone-card"
+    class="card-icon bt-bone-card"
+    id="bone-btn"
+  />
+</div>
