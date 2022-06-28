@@ -1,7 +1,8 @@
 class Project {
-  constructor(title, content) {
+  constructor(title, content, order) {
     this.title = title;
     this.content = content;
+    this.order = order;
     this.done = false;
     this.tasks = [];
   }
@@ -16,6 +17,12 @@ class Project {
   }
   getContent() {
     return this.content;
+  }
+  setOrder(newOrder) {
+    this.order = newOrder;
+  }
+  getOrder() {
+    return this.order;
   }
   viewDoneStatus() {
     return this.done;
@@ -147,7 +154,7 @@ function readNewProjectInput() {
 
   let newContent = document.getElementById("new-content").value;
   //add new project to library
-  let newProject = new Project(newTitle, newContent);
+  let newProject = new Project(newTitle, newContent, myProjects.length);
   myProjects.push(newProject);
   console.log("added new project.");
   addNewProjectTab(newProject, myProjects.length);
@@ -155,10 +162,10 @@ function readNewProjectInput() {
   console.log("set active proj to be: ", activeProject.getTitle());
 }
 
-function addNewProjectTab(project, position) {
+function addNewProjectTab(project, order) {
   let projectsList = document.getElementById("projects-list");
   let newTab = document.createElement("li");
-  newTab.dataset.position = position;
+  newTab.dataset.order = order;
   newTab.textContent = project.getTitle();
   newTab.classList.add("project");
   projectsList.appendChild(newTab);
@@ -191,6 +198,7 @@ function showProject(project) {
   //clear all cards in html
   clearCardsHTML();
   showCardsInProject(project);
+  setActiveProjectHTML(project);
 }
 
 function clearCardsHTML() {
@@ -269,6 +277,7 @@ function addNewTaskCard(task) {
 
 function readNewTaskInput(activeProject) {
   // console.log("active project: ", activeProject.getTitle());
+
   let newTitle = document.getElementById("new-task-title").value;
   let newContent = document.getElementById("new-task-content").value;
   let newTask = new Task(
@@ -291,12 +300,13 @@ function updateIndexHTML() {
   //get projects from array
   let allProjects = document.getElementsByClassName("project");
   for (let i = 0; i < myProjects.length; i++) {
-    allProjects[i].dataset.position = i;
+    allProjects[i].dataset.order = i;
     //remove existing event listeners
     allProjects[i].replaceWith(allProjects[i].cloneNode(true));
     //add event listeners
     allProjects[i].addEventListener("click", () => {
       activeProject = myProjects[i];
+
       showProject(myProjects[i]);
       // console.log("showing project: ", myProjects[i].getTitle());
     });
@@ -344,8 +354,30 @@ document.getElementById("new-clear").addEventListener("click", () => {
 });
 //for adding new tasks
 document.getElementById("newTaskButton").addEventListener("click", () => {
+  if (!activeProject) {
+    alert("Please create or select project from left sidebar to add task to.");
+    return;
+  }
   openTaskForm();
 });
+
+function setActiveProjectHTML(activeProject) {
+  //remove active class from each element which has it
+  let activeElements = document.getElementsByClassName("active");
+  if (!activeElements) return;
+  for (let i = 0; i < activeElements.length; i++) {
+    activeElements[i].classList.remove("active");
+  }
+
+  let activeProjectTab = document.querySelector(
+    `li.project[data-order="${activeProject.getOrder()}"]`
+  );
+  if (!activeProjectTab) {
+    console.log("no active projects found - ERROR");
+    return;
+  }
+  activeProjectTab.classList.add("active");
+}
 
 document.getElementById("new-task-create").addEventListener("click", () => {
   if (document.getElementById("new-task-title").value.trim().length < 1) {
