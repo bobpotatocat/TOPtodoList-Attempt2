@@ -9,7 +9,7 @@ li {
 }
 
 /* dashboard and header */
-.dashboard-container {
+.projects-container {
   grid-column: 1/2;
   grid-row: 1/3;
   background-color: rgb(244, 201, 183);
@@ -18,23 +18,20 @@ li {
   padding: 2rem;
 }
 
-.dashboard-container > h2 {
+.projects-container > h2 {
   font-size: 3rem;
 }
-.dashboard-container .dash-points {
+.projects-container .projects-list {
   display: flex;
   flex-direction: column;
   gap: 3rem;
   font-size: 2rem;
 }
 
-.dash-points li:hover {
+.projects-list li:hover {
   text-decoration: underline;
   cursor: pointer;
-}
 
-.upper-dash,
-.lower-dash {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -118,6 +115,8 @@ img.profile-snip {
   opacity: 1;
 }
 
+/* new project or task forms */
+
 #newProjectForm {
   border: 5px grey solid;
   border-radius: 20px;
@@ -127,7 +126,7 @@ img.profile-snip {
   padding: 1rem;
   z-index: 1;
   top: 15rem;
-  right: 15rem;
+  left: 30rem;
   display: none;
   font-family: "Roboto", sans-serif;
 }
@@ -175,8 +174,65 @@ img.profile-snip {
   border-radius: 5px;
 }
 
+#newTaskForm {
+  border: 5px grey solid;
+  border-radius: 20px;
+  width: 30rem;
+  position: absolute;
+  background-color: aliceblue;
+  padding: 1rem;
+  z-index: 1;
+  top: 15rem;
+  right: 15rem;
+  display: none;
+  font-family: "Roboto", sans-serif;
+}
+
+#newTaskForm .form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2rem;
+}
+
+#newTaskForm .form .title-qn,
+#newTaskForm .form .content-qn {
+  display: flex;
+  flex-direction: column;
+}
+#newTaskForm .form .title-qn label,
+#newTaskForm .form .content-qn label {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+#newTaskForm .form .title-qn input {
+  border: 4px rgb(128, 185, 128) solid;
+  border-radius: 5px;
+  font-size: 1.3rem;
+}
+
+#newTaskForm .form .content-qn input {
+  border: 4px grey solid;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  height: 5rem;
+}
+
+#newTaskForm .form .new-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+#newTaskForm .form .new-buttons button {
+  width: 9rem;
+  height: 2rem;
+  font-size: 1.4rem;
+  border: 2px black solid;
+  border-radius: 5px;
+}
+
 /* Projects section */
-.projects-container {
+.task-container {
   grid-column: 2/3;
   grid-row: 2/3;
   background-color: lightskyblue;
@@ -186,7 +242,7 @@ img.profile-snip {
   grid-template-rows: 1fr;
 }
 
-.projects-container .cards {
+.task-container .cards {
   font-family: "Roboto", sans-serif;
   grid-column: 1/2;
   grid-row: 1/2;

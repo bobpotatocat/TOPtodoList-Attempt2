@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,24 +16,69 @@
     <title>DoggoGram</title>
   </head>
   <body>
-    <div class="dashboard-container">
-      <h2>Dashboard</h2>
+    <div class="projects-container">
+      <h2>Your Projects</h2>
 
-      <div class="dash-points">
-        <div class="upper-dash">
-          <li><img src="home.png" alt="" /> Home</li>
-          <li><img src="dog.png" alt="" /> Profile</li>
-          <li><img src="chat.png" alt="" /> Messages</li>
-          <li><img src="calendar-clock.png" alt="" /> History</li>
-          <li><img src="clipboard-list.png" alt="" /> Tasks</li>
-          <li><img src="account-group-outline.png" alt="" /> Communities</li>
+      <div class="projects-list" id="projects-list">
+        <li data-position="">Test project</li>
+      </div>
+      <button id="newProjectButton">Create New Project</button>
+    </div>
+
+    <div class="popup-form" id="newProjectForm">
+      <div class="form">
+        <h1>Add new Project</h1>
+
+        <div class="title-qn">
+          <label for="title"> What's your new project? </label>
+          <input
+            id="new-title"
+            type="text"
+            placeholder="Change the world!"
+            name="title"
+            required
+          />
         </div>
-        <div class="lower-dash">
-          <li><img src="cog-outline.png" alt="" /> Settings</li>
-          <li><img src="library.png" alt="" /> Support</li>
+
+        <div class="content-qn">
+          <label for="content">Description:</label>
+          <input id="new-content" type="text" name="content" />
+        </div>
+
+        <div class="new-buttons">
+          <button id="new-create">Create</button>
+          <button id="new-clear">Clear</button>
         </div>
       </div>
     </div>
+
+    <div class="popup-form" id="newTaskForm">
+      <div class="form">
+        <h1>Add Task</h1>
+
+        <div class="title-qn">
+          <label for="title">Task name: </label>
+          <input
+            id="new-task-title"
+            type="text"
+            placeholder="Build a laser cannon"
+            name="title"
+            required
+          />
+        </div>
+
+        <div class="content-qn">
+          <label for="content">Description:</label>
+          <input id="new-task-content" type="text" name="content" />
+        </div>
+
+        <div class="new-buttons">
+          <button id="new-task-create">Create</button>
+          <button id="new-task-clear">Clear</button>
+        </div>
+      </div>
+    </div>
+
     <div class="header-container">
       <div class="search-row">
         <div class="search-bar">
@@ -64,152 +109,19 @@
           </div>
         </div>
         <div class="welcome-right">
-          <button id="newProjectButton">New</button><button>Upload</button
+          <button id="newTaskButton">Add Task</button><button>Upload</button
           ><button>Share</button>
-        </div>
-
-        <div class="popup-form" id="newProjectForm">
-          <div class="form">
-            <h1>Add new Project</h1>
-
-            <div class="title-qn">
-              <label for="title"> What's your new project? </label>
-              <input
-                id="new-title"
-                type="text"
-                placeholder="Change the world!"
-                name="title"
-                required
-              />
-            </div>
-
-            <div class="content-qn">
-              <label for="content">Description:</label>
-              <input id="new-content" type="text" name="content" />
-            </div>
-
-            <div class="new-buttons">
-              <button id="new-create">Create</button>
-              <button id="new-clear">Clear</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
 
-    <div class="projects-container">
-      <div class="cards" id="cards-container">
-        <!-- <div class="card" data-position="" data-done="false">
-          <div class="title">I WANT LUB LUB</div>
-          <div class="content">
-            I am bekom fat long bois blep long woofer dat tungg tho very good
-            spot puggo, I am bekom fat doggo thicc very hand that feed shibe.
-            wrinkler heckin I am bekom fat.
-          </div>
-
-          <div class="card-action">
-            <input
-              type="image"
-              src="star-check.png"
-              name="mark-card"
-              class="card-icon bt-mark-card"
-              id="mark-btn"
-            />
-            <input
-              type="image"
-              src="trash-can.png"
-              name="del-card"
-              class="card-icon bt-del-card"
-              id="del-btn"
-            />
-            <input
-              type="image"
-              src="bone.png"
-              name="bone-card"
-              class="card-icon bt-bone-card"
-              id="bone-btn"
-            />
-          </div>
-        </div> -->
-
-        <!-- 
-        <div class="card">
-          <div class="title">GIMME FOOD PLZ?</div>
-          <div class="content">
-            Blop puggo long woofer doing me a frighten borkf what a nice floof,
-            blop floofs very good spot. Fluffer snoot extremely cuuuuuute
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
-        </div> -->
-
-        <!--
-        <div class="card">
-          <div class="title">I is best boy</div>
-          <div class="content">
-            Maximum borkdrive doing me a frighten he made many woofs the
-            neighborhood pupper shoob puggorino puggo very hand that feed shibe,
-            very taste wow clouds wow very biscit borkdrive blop big ol pupper.
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
+    <div class="task-container">
+      <div class="project-display" id="project-display-sample">
+        <div id="project-header">
+          <h1 id="project-title">Select/Create a project to get started!</h1>
+          <h3 id="project-content"></h3>
         </div>
-        <div class="card">
-          <div class="title">Get belly lubb</div>
-          <div class="content">
-            Pupperino sub woofer woofer very taste wow you are doing me the
-            shock aqua doggo pupperino
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="title">Teh O smelly</div>
-          <div class="content">
-            what a nice floof pupperino blop I am bekom fat. vvv much ruin diet
-            ur givin me a spook. Pupperino sub woofer woofer very taste wow you
-            are doing me the shock aqua doggo pupperino
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="title">HIDE FOODS</div>
-          <div class="content">
-            Long doggo waggy wags much ruin diet wrinkler smol borking doggo
-            with a long snoot for pats very jealous pupper, wow very biscit
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
-        </div>
-        <div class="card">
-          <div class="title">BITE SOCKS</div>
-          <div class="content">
-            Smol floofs long woofer many pats adorable doggo, dat tungg tho blep
-            h*ck. Waggy wags heck heckin good boys and girls ur givin me a spook
-            pupperino long water shoob
-          </div>
-          <div class="card-action">
-            <img src="star-check.png" alt="" />
-            <img src="trash-can.png" alt="" />
-            <img src="bone.png" alt="" />
-          </div>
-        </div> -->
+        <div class="cards" id="cards-container"></div>
       </div>
 
       <div class="Annoucements">
@@ -238,10 +150,6 @@
           <hr />
         </div>
       </div>
-
-      <!-- <div class="connections">
-
-      </div> -->
     </div>
   </body>
 </html>
