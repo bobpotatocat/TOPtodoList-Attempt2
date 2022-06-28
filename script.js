@@ -103,11 +103,11 @@ function updateIndexHTML() {
         // then disable event listener
       });
 
-    // allCards[pos]
-    //   .getElementsByClassName("bt-mark-card")[0]
-    //   .addEventListener("click", () => {
-    //     markCardDone(pos);
-    //   });
+    allCards[pos]
+      .getElementsByClassName("bt-mark-card")[0]
+      .addEventListener("click", () => {
+        markCardDone(pos);
+      });
   }
 
   console.log("refresh called, myProjects length: ", myProjects.length);
