@@ -161,13 +161,31 @@ function readNewProjectInput() {
   activeProject = newProject;
   console.log("set active proj to be: ", activeProject.getTitle());
 }
-
+function deleteProject(order) {
+  //remove from array
+  myProjects.splice(order, 1);
+  //remove from sidebar
+  let projectTabToDel = document.querySelector(
+    `li.project[data-order="${order}"]`
+  );
+  projectTabToDel.remove();
+  console.log("deleted project of position : ", order);
+  updateProjectTabHTML();
+  setActiveProjectHTML(); //no parameter
+}
 function addNewProjectTab(project, order) {
   let projectsList = document.getElementById("projects-list");
   let newTab = document.createElement("li");
   newTab.dataset.order = order;
   newTab.textContent = project.getTitle();
   newTab.classList.add("project");
+  //add trash icon and event listener (also need to update listener )
+  let projTrashButton = document.createElement("input");
+  projTrashButton.classList.add("projectTabDelButton");
+  projTrashButton.type = "image";
+  projTrashButton.src = "trash-can.png";
+  // projTrashButton.addEventListener("click", deleteProject(order));  //don't add here, add after it has been created
+  newTab.appendChild(projTrashButton);
   projectsList.appendChild(newTab);
 }
 
@@ -191,14 +209,19 @@ function deleteCard(activeProject, position) {
 
 function showProject(project) {
   let projHeader = document.getElementById("project-title");
-  projHeader.textContent = project.getTitle();
   let projContent = document.getElementById("project-content");
-  projContent.textContent = project.getContent();
-
-  //clear all cards in html
   clearCardsHTML();
-  showCardsInProject(project);
-  setActiveProjectHTML(project);
+  if (project === "default") {
+    projHeader.textContent = "Create/Select a project to view!";
+    projContent.textContent = "";
+    setActiveProjectHTML();
+    return;
+  } else {
+    projHeader.textContent = project.getTitle();
+    projContent.textContent = project.getContent();
+    showCardsInProject(project);
+    setActiveProjectHTML(project);
+  }
 }
 
 function clearCardsHTML() {
@@ -296,23 +319,30 @@ function readNewTaskInput(activeProject) {
   updateCardsHTML(activeProject);
 }
 
-function updateIndexHTML() {
+function updateProjectTabHTML() {
   //get projects from array
-  let allProjects = document.getElementsByClassName("project");
+  let allProjectTabs = document.getElementsByClassName("project");
   for (let i = 0; i < myProjects.length; i++) {
-    allProjects[i].dataset.order = i;
+    myProjects[i].setOrder(i);
+    allProjectTabs[i].dataset.order = i;
     //remove existing event listeners
-    allProjects[i].replaceWith(allProjects[i].cloneNode(true));
+    allProjectTabs[i].replaceWith(allProjectTabs[i].cloneNode(true));
     //add event listeners
-    allProjects[i].addEventListener("click", () => {
+    allProjectTabs[i].addEventListener("click", () => {
       activeProject = myProjects[i];
-
       showProject(myProjects[i]);
       // console.log("showing project: ", myProjects[i].getTitle());
     });
-  }
 
-  console.log("refresh called, myProjects length: ", myProjects.length);
+    let thisTrashButton = allProjectTabs[i].getElementsByClassName(
+      "projectTabDelButton"
+    )[0];
+    thisTrashButton.addEventListener("click", () => {
+      console.log("delete button clicked");
+      deleteProject(i);
+      showProject("default");
+    });
+  }
 }
 
 function markCardDone(pos) {
@@ -344,7 +374,7 @@ document.getElementById("new-create").addEventListener("click", () => {
     readNewProjectInput();
     clearInputForm();
     closeProjectForm();
-    updateIndexHTML();
+    updateProjectTabHTML();
   }
 });
 
@@ -364,16 +394,22 @@ document.getElementById("newTaskButton").addEventListener("click", () => {
 function setActiveProjectHTML(activeProject) {
   //remove active class from each element which has it
   let activeElements = document.getElementsByClassName("active");
-  if (!activeElements) return;
-  for (let i = 0; i < activeElements.length; i++) {
-    activeElements[i].classList.remove("active");
+  if (activeElements) {
+    for (let i = 0; i < activeElements.length; i++) {
+      activeElements[i].classList.remove("active");
+    }
+  }
+
+  if (!activeProject) {
+    //when no parameter passed, just remove style and return
+    return;
   }
 
   let activeProjectTab = document.querySelector(
     `li.project[data-order="${activeProject.getOrder()}"]`
   );
   if (!activeProjectTab) {
-    console.log("no active projects found - ERROR");
+    console.log("active project not found - ERROR");
     return;
   }
   activeProjectTab.classList.add("active");
