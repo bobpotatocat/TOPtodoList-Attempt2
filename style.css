@@ -60,6 +60,7 @@ li {
 #newProjectButton:hover {
   cursor: pointer;
   background-color: rgb(186, 239, 222);
+  font-weight: bold;
 }
 
 /* header */
@@ -330,32 +331,10 @@ img.profile-snip {
   transform: scale(1.2);
 }
 
-#card-action-sample {
-  display: none;
-}
-
 /* style cards which are marked */
 .card[data-done="true"] {
   background-color: lightgreen;
   opacity: 0.7;
-}
-
-.card.enlarged {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;
-  transition: 0.3s;
-  transform: scale(2.5);
-  max-width: 400px;
-
-  opacity: 1;
-  /* border: 3px red solid; */
-}
-.card.enlarged .title,
-.card.enlarged .content {
-  border: 1px black solid;
-  min-width: 50px;
 }
 
 /* ANNOUCEMENTS */

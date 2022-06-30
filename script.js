@@ -30,9 +30,6 @@ class Project {
   flipDoneStatus() {
     this.done = !this.done;
   }
-  getDoneStatus(doneStatus) {
-    this.done = doneStatus;
-  }
   addTask(task) {
     this.tasks.push(task);
   }
@@ -42,8 +39,8 @@ class Project {
   removeTask(position) {
     this.tasks.splice(position, 1);
   }
-  setTasks(taskArray) {
-    this.tasks = taskArray;
+  checkHasTask(task) {
+    //todo
   }
 }
 
@@ -72,19 +69,18 @@ class Task {
   getContent() {
     return this.content;
   }
-  getDoneStatus() {
+  viewDoneStatus() {
     return this.done;
   }
   flipDoneStatus() {
     this.done = !this.done;
   }
-  setDoneStatus(doneStatus) {
-    this.done = doneStatus;
-  }
 }
 
 let myProjects = [];
 let activeProject;
+
+//first get button to pop up form
 
 function closeAllPopUpForms() {
   //close all other popup forms
@@ -121,6 +117,37 @@ function clearInputForm() {
   document.getElementById("new-task-content").value = "";
 }
 
+// //this updates html
+// function addNewProjectCard(title, content, position) {
+//   //create new card element
+//   let newCard = document.createElement("div");
+//   newCard.classList.add("card");
+
+//   let newCardTitle = document.createElement("div");
+//   newCardTitle.classList.add("title");
+//   newCardTitle.textContent = title;
+
+//   let newCardContent = document.createElement("div");
+//   newCardContent.classList.add("content");
+//   newCardContent.textContent = content;
+
+//   newCard.dataset.done = "false";
+//   newCard.dataset.position = position;
+
+//   //add card action buttons
+//   let cardAction = document
+//     .getElementById("card-action-sample")
+//     .cloneNode(true);
+
+//   newCard.appendChild(newCardTitle);
+//   newCard.appendChild(newCardContent);
+//   newCard.appendChild(cardAction);
+
+//   //add new card to cards container
+//   cardsContainer = document.getElementById("cards-container");
+//   cardsContainer.appendChild(newCard);
+// }
+
 //this retrieves input fields, makes new project in array
 function readNewProjectInput() {
   let newTitle = document.getElementById("new-title").value;
@@ -131,7 +158,8 @@ function readNewProjectInput() {
   myProjects.push(newProject);
   console.log("added new project.");
   addNewProjectTab(newProject, myProjects.length);
-  // console.log("set active proj to be: ", activeProject.getTitle());
+  activeProject = newProject;
+  console.log("set active proj to be: ", activeProject.getTitle());
 }
 function deleteProject(order) {
   //remove from array
@@ -235,22 +263,8 @@ function updateCardsHTML(activeProject) {
     allTaskCards[i]
       .getElementsByClassName("bt-mark-card")[0]
       .addEventListener("click", () => {
-        //flip done status for task
-        allTasks[i].flipDoneStatus();
         markCardDone(i);
       });
-
-    allTaskCards[i].addEventListener("click", (e) => {
-      //if not clicking on buttons
-      if (
-        !allTaskCards[i]
-          .getElementsByClassName("card-action-input")[0]
-          .contains(e.target)
-      ) {
-        console.log("enlarging card in pos: ", i);
-        enlargeTaskCard(i);
-      }
-    });
   }
 }
 
@@ -262,16 +276,12 @@ function addNewTaskCard(task) {
   let newCardTitle = document.createElement("div");
   newCardTitle.classList.add("title");
   newCardTitle.textContent = task.getTitle();
-  newCardTitle.contentEditable = "true";
 
   let newCardContent = document.createElement("div");
   newCardContent.classList.add("content");
   newCardContent.textContent = task.getContent();
-  newCardContent.contentEditable = "true";
 
-  // if task is already done when card is being created,
-  // make it green by setting data-done
-  newCard.dataset.done = task.getDoneStatus();
+  newCard.dataset.done = "false";
   newCard.dataset.position = task.getPosition();
 
   //add card action buttons
@@ -279,7 +289,6 @@ function addNewTaskCard(task) {
     .getElementById("card-action-sample")
     .cloneNode(true);
 
-  cardAction.id = "card-action-actual";
   newCard.appendChild(newCardTitle);
   newCard.appendChild(newCardContent);
   newCard.appendChild(cardAction);
@@ -338,40 +347,19 @@ function updateProjectTabHTML() {
 
 function markCardDone(pos) {
   //update the array first
-  let thisCard = activeProject.getAllTasks()[pos];
-  if (thisCard.done === "true") {
-    thisCard.done = "false";
+  let thisProject = myProjects[pos];
+  if (thisProject.done === "true") {
+    thisProject.done = "false";
   } else {
-    thisCard.done = "true";
+    thisProject.done = "true";
   }
 
   //update html card
-  let cardToMark = document.querySelector(`div.card[data-position="${pos}"]`);
-  cardToMark.dataset.done = thisCard.done;
+  let cardToMark = document.querySelector(`div [data-position="${pos}"]`);
+  cardToMark.dataset.done = thisProject.done;
 }
-function setActiveProjectHTML(activeProject) {
-  //remove active class from each element which has it
-  let activeElements = document.getElementsByClassName("active");
-  if (activeElements) {
-    for (let i = 0; i < activeElements.length; i++) {
-      activeElements[i].classList.remove("active");
-    }
-  }
 
-  if (!activeProject) {
-    //when no parameter passed, just remove style and return
-    return;
-  }
-
-  let activeProjectTab = document.querySelector(
-    `li.project[data-order="${activeProject.getOrder()}"]`
-  );
-  if (!activeProjectTab) {
-    console.log("active project not found - ERROR");
-    return;
-  }
-  activeProjectTab.classList.add("active");
-}
+//add event listeners to trash buttons
 
 //when create new project button is pressed
 document
@@ -403,10 +391,29 @@ document.getElementById("newTaskButton").addEventListener("click", () => {
   openTaskForm();
 });
 
-document.getElementById("new-task-clear").addEventListener("click", () => {
-  clearInputForm();
-  closeAllPopUpForms();
-});
+function setActiveProjectHTML(activeProject) {
+  //remove active class from each element which has it
+  let activeElements = document.getElementsByClassName("active");
+  if (activeElements) {
+    for (let i = 0; i < activeElements.length; i++) {
+      activeElements[i].classList.remove("active");
+    }
+  }
+
+  if (!activeProject) {
+    //when no parameter passed, just remove style and return
+    return;
+  }
+
+  let activeProjectTab = document.querySelector(
+    `li.project[data-order="${activeProject.getOrder()}"]`
+  );
+  if (!activeProjectTab) {
+    console.log("active project not found - ERROR");
+    return;
+  }
+  activeProjectTab.classList.add("active");
+}
 
 document.getElementById("new-task-create").addEventListener("click", () => {
   if (document.getElementById("new-task-title").value.trim().length < 1) {
@@ -418,104 +425,3 @@ document.getElementById("new-task-create").addEventListener("click", () => {
     closeAllPopUpForms();
   }
 });
-
-function enlargeTaskCard(position) {
-  //remove all enlarged class items
-  let enlargedElements = document.getElementsByClassName("enlarged");
-  if (enlargedElements) {
-    for (let i = 0; i < enlargedElements.length; i++) {
-      enlargedElements[i].classList.remove("enlarged");
-    }
-  }
-  let thisCard = document.querySelector(`div.card[data-position="${position}"`);
-  thisCard.classList.add("enlarged");
-}
-
-//click anywhere outside div to close enlarged view
-document.body.addEventListener("click", (e) => {
-  //if have card currently enlarged
-  if (document.getElementsByClassName("enlarged")[0]) {
-    if (!document.getElementsByClassName("enlarged")[0].contains(e.target)) {
-      document
-        .getElementsByClassName("enlarged")[0]
-        .classList.remove("enlarged");
-    }
-  }
-});
-
-window.addEventListener("beforeunload", (e) => {
-  let updatedProjectsArray = JSON.stringify(myProjects);
-  localStorage.setItem("myProjectsJSON", updatedProjectsArray);
-});
-
-let test = new Project("bob dole", "some content here", 0);
-test.addTask(new Task("task 1", "some content", 0));
-test.addTask(new Task("task 2", "", 1));
-let jsonTest = JSON.stringify(test);
-// console.log(jsonTest);
-let obj = JSON.parse(jsonTest);
-// console.log(obj["title"]);
-
-let myarr = [];
-myarr.push(test);
-let jsonArray = JSON.stringify(myarr);
-// console.log(myarr);
-localStorage.setItem("myProjects", jsonArray);
-
-let hoho = localStorage.getItem("myProjects");
-let hehe = JSON.parse(hoho);
-// console.log(hehe[0]);
-// console.log(hehe[0]["tasks"][0]);
-
-// console.log();
-
-// hoho.forEach((ho) => {
-//   console.log(ho[title]);
-// });
-// if (hoho.length>0){
-//   populateFromJSON();
-// }else{
-//   console.log('no json data found.')
-// }
-
-function getFromJSON() {
-  //to change key in getItem
-  let jsonprojectArray = JSON.parse(localStorage.getItem("myProjectsJSON"));
-  let myProjects = [];
-  for (let i = 0; i < jsonprojectArray.length; i++) {
-    //create project to populate myProject array - need to add done property too
-    let thisJSONproject = jsonprojectArray[i];
-    let thisProject = new Project(
-      thisJSONproject["title"],
-      thisJSONproject["content"],
-      i
-    );
-
-    thisProject.getDoneStatus(thisJSONproject["done"]);
-    //then create tasks one by one add to project
-    for (let j = 0; j < thisJSONproject["tasks"].length; j++) {
-      let thisJSONtask = thisJSONproject["tasks"][j];
-      let thisTask = new Task(
-        thisJSONtask["title"],
-        thisJSONtask["content"],
-        j
-      );
-      thisTask.setDoneStatus(thisJSONtask["done"]);
-      thisProject.addTask(thisTask);
-    }
-
-    //then add to proj array
-    myProjects.push(thisProject);
-  }
-  return myProjects;
-}
-
-function populateFromJSON(myProjects) {
-  for (let i = 0; i < myProjects.length; i++) {
-    addNewProjectTab(myProjects[i], i);
-  }
-  updateProjectTabHTML();
-}
-
-myProjects = getFromJSON();
-populateFromJSON(myProjects);
